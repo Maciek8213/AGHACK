@@ -92,11 +92,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
 
-//        Uri gmmIntentUri = Uri.parse("geo:0,0?q=lewiatan");
-//        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-//        mapIntent.setPackage("com.google.android.apps.maps");
-//        startActivity(mapIntent);
-
     }
 
 

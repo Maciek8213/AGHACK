@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,8 +19,9 @@ import java.util.ArrayList;
 public class Menu extends FragmentActivity{
 
     private View view;
-    ArrayList<String> codeLearnChapters = new ArrayList<String>(); //Tworzę kontener przechowujący elementy do wyświetlenia na liście
+    ArrayList<String> list = new ArrayList<String>(); //Tworzę kontener przechowujący elementy do wyświetlenia na liście
     ArrayAdapter<String> listViewAdapter = null;
+    ListView listView = null;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +31,8 @@ public class Menu extends FragmentActivity{
                 android.R.layout.simple_dropdown_item_1line, ITEAM);
         final AutoCompleteTextView textView = (AutoCompleteTextView)
                 findViewById(R.id.edit);
-        listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, codeLearnChapters); //tworzę adapter
-        final ListView listView = (ListView)findViewById(R.id.listView); //dodaję element opisany w xmlu
+        listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, list); //tworzę adapter
+        listView = (ListView)findViewById(R.id.listView); //dodaję element opisany w xmlu
         listView.setAdapter(listViewAdapter);//wyświetlam adapter
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
@@ -64,13 +66,19 @@ public class Menu extends FragmentActivity{
     public void addList(View view) {
         this.view = view;
         Intent intent = getIntent();
-        intent.putExtra("towary",codeLearnChapters);
+        intent.putExtra("towary",list);
         setResult(222, intent);
         finish();
     }
 
     public void usun(View view) {
 
-        listViewAdapter.clear();
+        for (int i = 0; i < list.size(); i++){
+            if (listView.isItemChecked(i)) {
+                Log.d("cos", listViewAdapter.getItem(i));
+                listViewAdapter.remove(listViewAdapter.getItem(i));
+            }
+        }
+
     }
 }

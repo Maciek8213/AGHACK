@@ -34,7 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Menu"/>
+        <activity android:name=".Menu" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:windowSoftInputMode="adjustNothing"  android:label="@string/app_name" android:launchMode="singleTop"/>
     </application>
 
 </manifest>

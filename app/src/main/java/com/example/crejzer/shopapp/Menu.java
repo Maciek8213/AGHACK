@@ -1,7 +1,8 @@
 package com.example.crejzer.shopapp;
 
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
+//import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -37,16 +38,18 @@ public class Menu extends FragmentActivity{
     }
 
     public void createButton(){
-        GradientDrawable roundedRectangle = (GradientDrawable) this.getResources().getDrawable(R.drawable.rounded_rectangle);
+
         Button button = (Button) findViewById(R.id.submit);
 
+        StateListDrawable roundedRectangle = (StateListDrawable) this.getResources().getDrawable(R.drawable.button_selector);
         button.setText("OK");
         button.setBackgroundDrawable(roundedRectangle);
 
         Button button2 = (Button) findViewById(R.id.usun);
 
+        StateListDrawable roundedRectangle1 = (StateListDrawable) this.getResources().getDrawable(R.drawable.button_selector);
         button2.setText("USUN");
-        button2.setBackgroundDrawable(roundedRectangle);
+        button2.setBackgroundDrawable(roundedRectangle1);
     }
 
     public void createTextView(){
@@ -65,7 +68,7 @@ public class Menu extends FragmentActivity{
         });
         textView.setAdapter(adapter);
     }
-    private static final String[] ITEAM = new String[] {};
+    private static final String[] ITEAM = new String[] {"Ania","Jest","Nie Jest","Fajna"};
 
     public void setIteam(){
 
@@ -82,21 +85,20 @@ public class Menu extends FragmentActivity{
 
     }
 
-
-
     public void sendToMap(View view) {
         this.view = view;
         Intent intent = getIntent();
-        intent.putExtra("towary",list);
-        setResult(222, intent);
-        finish();
+        intent.putExtra("towary", list);
+        if(listView.getAdapter().getCount() > 0) {
+            setResult(222, intent);
+            finish();
+        }
     }
 
     public void usunElement(View view) {
 
         for (int i = 0; i < list.size(); i++){
             if (listView.isItemChecked(i)) {
-                Log.d("cos", listViewAdapter.getItem(i));
                 listViewAdapter.remove(listViewAdapter.getItem(i));
             }
         }

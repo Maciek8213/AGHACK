@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="blue" >#96e9ff</color>
+    <color name="red" >#ff807d</color>
+    <color name="redSeclector">#ffb3b8</color>
     <color name="white">#ffffff</color>
 </resources>

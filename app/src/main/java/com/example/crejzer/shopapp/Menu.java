@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
+
 import java.util.ArrayList;
 
 /**
@@ -19,23 +20,23 @@ import java.util.ArrayList;
 public class Menu extends FragmentActivity{
 
     private View view;
-    ArrayList<String> list = new ArrayList<String>(); //Tworzę kontener przechowujący elementy do wyświetlenia na liście
+
+    ArrayList<String> list = new ArrayList<String>();
     ArrayAdapter<String> listViewAdapter = null;
     ListView listView = null;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout);
+    AutoCompleteTextView textView = null;
+    ArrayAdapter<String> adapter = null;
 
-        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, ITEAM);
-        final AutoCompleteTextView textView = (AutoCompleteTextView)
-                findViewById(R.id.edit);
+    public void createListView(){
+
         listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, list); //tworzę adapter
         listView = (ListView)findViewById(R.id.listView); //dodaję element opisany w xmlu
         listView.setAdapter(listViewAdapter);//wyświetlam adapter
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+    }
 
+    public void createButton(){
         GradientDrawable roundedRectangle = (GradientDrawable) this.getResources().getDrawable(R.drawable.rounded_rectangle);
         Button button = (Button) findViewById(R.id.submit);
 
@@ -46,7 +47,13 @@ public class Menu extends FragmentActivity{
 
         button2.setText("USUN");
         button2.setBackgroundDrawable(roundedRectangle);
+    }
 
+    public void createTextView(){
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, ITEAM);
+        textView = (AutoCompleteTextView)
+                findViewById(R.id.textView);
         textView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -58,12 +65,26 @@ public class Menu extends FragmentActivity{
         });
         textView.setAdapter(adapter);
     }
+    private static final String[] ITEAM = new String[] {};
 
-    private static final String[] ITEAM = new String[] {
-            "LSD","BROWAR","FAJKI"
-    };
+    public void setIteam(){
 
-    public void addList(View view) {
+
+    }
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout);
+
+        createListView();
+        createButton();
+        setIteam();
+        createTextView();
+
+    }
+
+
+
+    public void sendToMap(View view) {
         this.view = view;
         Intent intent = getIntent();
         intent.putExtra("towary",list);
@@ -71,7 +92,7 @@ public class Menu extends FragmentActivity{
         finish();
     }
 
-    public void usun(View view) {
+    public void usunElement(View view) {
 
         for (int i = 0; i < list.size(); i++){
             if (listView.isItemChecked(i)) {

@@ -1,6 +1,7 @@
 package com.example.crejzer.shopapp;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.JsonElement;
 
 import retrofit.Callback;
 import retrofit.http.GET;
@@ -18,5 +19,5 @@ public interface API {
 
     @GET("/json")
     void getListOfPlaces(@Query("location") String location, @Query("radius") int radius,
-                         @Query("name") String name, @Query("key") String apiKey, Callback<LatLng> call);
+                         @Query("name") String name, @Query("key") String apiKey, Callback<JsonElement> call);
 }

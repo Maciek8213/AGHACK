@@ -25,8 +25,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.reflect.TypeToken;
 //import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,34 +56,50 @@ import retrofit.converter.GsonConverter;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    public static final String TAG="MapsActivity";
-        public void askApi(){
-            GsonBuilder builder = new GsonBuilder();
-            //tell GSON which object type you want to get
-            Type collectionType = new TypeToken<LatLng>() {
-            }.getType();
-            //tell GSON which deserilizer can transfrom Json into your object
-            builder.registerTypeAdapter(collectionType, new GoogleDeserializwer());
-            Gson gson = builder.create();
-            GsonConverter converter = new GsonConverter(gson);
-            RestAdapter adapter = new RestAdapter.Builder().setEndpoint(API.ENDPOINT)
-                    .setConverter(converter)
-                    .build();
+    public static final String TAG = "MapsActivity";
 
-            API api = adapter.create(API.class);
-            api.getListOfPlaces(API.testLocation, 2000, "lewiatan", API.key, new Callback<LatLng>() {
-                @Override
-                public void success(LatLng latLng, Response response) {
-                    Log.d("odpowiedz", "success() called with: " + "latLng = [" + latLng + "], response = [" + response + "]");
-                }
+    public void askApi() {
+        Log.d(TAG, "askApi ");
+        GsonBuilder builder = new GsonBuilder();
+        //tell GSON which object type you want to get
+        Type collectionType = new TypeToken<LatLng>() {
+        }.getType();
+        //tell GSON which deserilizer can transfrom Json into your object
+        builder.registerTypeAdapter(collectionType, new GoogleDeserializwer());
+        Gson gson = builder.create();
+        GsonConverter converter = new GsonConverter(gson);
+        RestAdapter adapter = new RestAdapter.Builder().setEndpoint(API.ENDPOINT)
+                .setConverter(converter)
+                .build();
 
-                @Override
-                public void failure(RetrofitError error) {
-                    error.printStackTrace();
-                }
-            });
+        API api = adapter.create(API.class);
+        Log.d(TAG, "askApi :");
+        api.getListOfPlaces(API.testLocation, 2000, "lewiatan", API.key, new Callback<JsonElement>() {
+            @Override
+            public void success(JsonElement objj, Response response) {
+                Log.d("odpowiedz", "success() called with: " + "latLng = [" + objj + "], response = [" + response + "]");
+                JsonObject obj = objj.getAsJsonObject();
+                JsonArray arr = obj.get("results").getAsJsonArray();
+                JsonObject location = arr.get(0).getAsJsonObject().get("geometry").getAsJsonObject().get("location").getAsJsonObject();
+                Double lat = location.get("lat").getAsDouble();
+                Double lng = location.get("lng").getAsDouble();
+                Log.d(TAG, "success : lat"+String.valueOf(lat));
+                Log.d(TAG, "success : lat"+String.valueOf(lng));
+            }
 
-        }
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e(TAG, "failure : url = " + error.getUrl());
+                Log.e(TAG, "cause" + error.getCause());
+                Log.e(TAG, "message " + error.getMessage());
+                error.printStackTrace();
+            }
+
+
+        });
+
+    }
+
     private GoogleMap mMap;
     float newLocationAccuracy = 0;
     ArrayList<String> towary = null;
@@ -102,9 +124,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         Log.d("tagg", "onActivityResult() called with " + "requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data.getStringArrayListExtra("towary") + "]");
-        switch(resultCode){
+        switch (resultCode) {
             default:
-                Log.d("error",String.valueOf(resultCode));
+                Log.d("error", String.valueOf(resultCode));
                 break;
             case 222:
                 towary = data.getStringArrayListExtra("towary");
@@ -127,7 +149,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 break;
 
 
-
         }
 
 //        Uri gmmIntentUri = Uri.parse("geo:0,0?q=lewiatan");
@@ -138,7 +159,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         super.onActivityResult(requestCode, resultCode, data);
     }
-//    public static void execute() {
+
+    //    public static void execute() {
 //        Map<String, String> comment = new HashMap<String, String>();
 //        comment.put("subject", "Using the GSON library");
 //        comment.put("message", "Using libraries is convenient.");
@@ -182,11 +204,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager.requestLocationUpdates(locationProvider, 0, 0, locationListener);
         mMap.setMyLocationEnabled(true);
         mMap.moveCamera(CameraUpdateFactory.zoomTo(15));
-Log.d("test", "test");
+        Log.d("test", "test");
 
 
-
-        String s="{\n" +
+        String s = "{\n" +
                 "  \"html_attributions\": [],\n" +
                 "  \"results\": [\n" +
                 "    {\n" +
@@ -210,18 +231,17 @@ Log.d("test", "test");
                 "  ],\n" +
                 "  \"status\": \"OK\"\n" +
                 "}";
-        String fraza="lat";
-        int gdzie=s.indexOf(fraza);
+        String fraza = "lat";
+        int gdzie = s.indexOf(fraza);
         Log.d("gdzie", String.valueOf(gdzie));
-        String result=s.substring(gdzie+6,gdzie+15);
-        Log.d("result",result);
+        String result = s.substring(gdzie + 6, gdzie + 15);
+        Log.d("result", result);
 
-        String fraza1="lng";
-        int gdzie1=s.indexOf(fraza1);
-        Log.d("gdzie",String.valueOf(gdzie1));
-        String result1=s.substring(gdzie1+6,gdzie1+15);
-        Log.d("result",result1);
-
+        String fraza1 = "lng";
+        int gdzie1 = s.indexOf(fraza1);
+        Log.d("gdzie", String.valueOf(gdzie1));
+        String result1 = s.substring(gdzie1 + 6, gdzie1 + 15);
+        Log.d("result", result1);
 
 
     }
@@ -230,10 +250,10 @@ Log.d("test", "test");
     LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
             LatLng sydney = new LatLng(location.getLatitude(), location.getLongitude());
-           // mMap.addMarker(new MarkerOptions().position(sydney).title(String.valueOf(location.getLatitude())+ String.valueOf(location.getLongitude())));
-            if(newLocationAccuracy != 0) {
+            // mMap.addMarker(new MarkerOptions().position(sydney).title(String.valueOf(location.getLatitude())+ String.valueOf(location.getLongitude())));
+            if (newLocationAccuracy != 0) {
                 Log.i("lokacja", String.valueOf(location.getAccuracy()));
-                if (newLocationAccuracy <= location.getAccuracy()){
+                if (newLocationAccuracy <= location.getAccuracy()) {
                     newLocationAccuracy = location.getAccuracy();
                 }
             }

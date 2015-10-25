@@ -31,7 +31,7 @@ public class Menu extends FragmentActivity{
 
     AutoCompleteTextView textView = null;
     ArrayAdapter<String> adapter = null;
-
+    //wg ceny 1 wg odleglosci 2
     int result = 0;
 
     public void createListView(){
@@ -105,8 +105,13 @@ public class Menu extends FragmentActivity{
         intent.putExtra("towary", list);
         Log.d("jakis", String.valueOf(result));
         if(listView.getAdapter().getCount() > 0) {
-            setResult(222, intent);
-            finish();
+            if(result==2) {
+                setResult(222, intent);
+                finish();
+            } else  if (result == 1){
+                setResult(111, intent);
+                finish();
+            }
         }
     }
 

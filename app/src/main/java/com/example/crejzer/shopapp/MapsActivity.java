@@ -124,41 +124,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         Log.d("tagg", "onActivityResult() called with " + "requestCode = [" + requestCode + "], resultCode = [" + resultCode + "], data = [" + data.getStringArrayListExtra("towary") + "]");
-        switch (resultCode) {
+        switch(resultCode){
             default:
-                Log.d("error", String.valueOf(resultCode));
+                Log.d("error",String.valueOf(resultCode));
                 break;
             case 222:
                 towary = data.getStringArrayListExtra("towary");
-//                for(int i = 0; i < towary.size(); i++) {
-//                    Log.d("towaryApp", towary.get(i));
-//                }
-//                String[] skladniki = null;
-//                for(int i=0;i<towary.size();i++)
-//                {
-//                   skladniki[i] =towary.get(i).toString();
-//                }
-//                Log.d("skladniki",skladniki[0]);
+                for(int i = 0; i < towary.size(); i++) {
+                    Log.d("odleglosc", towary.get(i));
+                }
 
-//
-//                SklepController sc = new SklepController(this, skladniki);  //inicjalizacja
-//                SklepSumy[] ss = sc.getSklepySumy();                        //pobieranie sklepów z najniższymi ofertami
+//                Uri gmmIntentUri = Uri.parse("geo:0,0?q=zabka");
+//                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+//                mapIntent.setPackage("com.google.android.apps.maps");
+//                startActivity(mapIntent);
                 break;
-            case 333:
-
+            case 111:
+                towary = data.getStringArrayListExtra("towary");
+                for(int i = 0; i < towary.size(); i++) {
+                    Log.d("cena", towary.get(i));
+                }
                 break;
-
 
         }
 
-//        Uri gmmIntentUri = Uri.parse("geo:0,0?q=lewiatan");
-//        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-//        mapIntent.setPackage("com.google.android.apps.maps");
-//        startActivity(mapIntent);
-
-
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
 
     //    public static void execute() {
 //        Map<String, String> comment = new HashMap<String, String>();

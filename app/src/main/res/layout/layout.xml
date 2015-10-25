@@ -11,16 +11,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="15dp"
         android:id="@+id/textView"
-        android:layout_alignBottom="@+id/submit"
-        android:layout_toStartOf="@+id/submit" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/submit"
-        android:onClick="sendToMap"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:hint="Wpisz produkt ktory chcesz wyszukac"
+        />
 
     <ListView
         android:layout_width="wrap_content"
@@ -32,12 +24,27 @@
         android:choiceMode="multipleChoice" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/listView"
         android:id="@+id/usun"
         android:layout_centerInParent="true"
-        android:onClick="usunElement"/>
+        android:onClick="usunElement"
+        android:visibility="invisible"/>
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/submit"
+        android:onClick="sendToMap"
+        android:layout_below="@+id/usun"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog"
+        android:layout_below="@+id/submit"
+        android:onClick="showDialog"/>
 
 </RelativeLayout>

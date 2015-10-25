@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-//import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -15,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -32,6 +32,8 @@ public class Menu extends FragmentActivity{
     AutoCompleteTextView textView = null;
     ArrayAdapter<String> adapter = null;
 
+    int result = 0;
+
     public void createListView(){
 
         listViewAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, list); //tworzę adapter
@@ -45,14 +47,20 @@ public class Menu extends FragmentActivity{
         Button button = (Button) findViewById(R.id.submit);
 
         StateListDrawable roundedRectangle = (StateListDrawable) this.getResources().getDrawable(R.drawable.button_selector);
-        button.setText("OK");
+        button.setText("Znajdz Sklep");
         button.setBackgroundDrawable(roundedRectangle);
 
         Button button2 = (Button) findViewById(R.id.usun);
 
         StateListDrawable roundedRectangle1 = (StateListDrawable) this.getResources().getDrawable(R.drawable.button_selector);
-        button2.setText("USUN");
+        button2.setText("Usun");
         button2.setBackgroundDrawable(roundedRectangle1);
+
+        Button button3 = (Button) findViewById(R.id.dialog);
+
+        StateListDrawable roundedRectangle2 = (StateListDrawable) this.getResources().getDrawable(R.drawable.button_selector);
+        button3.setText("Filtruj");
+        button3.setBackgroundDrawable(roundedRectangle2);
     }
 
     public void createTextView(){
@@ -64,9 +72,10 @@ public class Menu extends FragmentActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                Button buttonUsun = (Button) findViewById(R.id.usun);
                 listViewAdapter.add(textView.getText().toString());
+                buttonUsun.setVisibility(View.VISIBLE);
                 textView.setText("");
-
             }
         });
         textView.setAdapter(adapter);
@@ -75,11 +84,13 @@ public class Menu extends FragmentActivity{
 
     public void setIteam(){
 
-
     }
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout);
+
+        Toast.makeText(this, "Kilknij na wyszukany produkt aby go dodac do listy", Toast.LENGTH_LONG).show();
 
         createListView();
         createButton();
@@ -92,50 +103,47 @@ public class Menu extends FragmentActivity{
         this.view = view;
         Intent intent = getIntent();
         intent.putExtra("towary", list);
-//        if(listView.getAdapter().getCount() > 0) {
-//            setResult(222, intent);
-//            finish();
-//        }
-        buildDialog(intent, this);
+        Log.d("jakis", String.valueOf(result));
+        if(listView.getAdapter().getCount() > 0) {
+            setResult(222, intent);
+            finish();
+        }
     }
 
     public void usunElement(View view) {
 
         for (int i = 0; i < list.size(); i++){
             if (listView.isItemChecked(i)) {
+                Button buttonUsun = (Button) findViewById(R.id.usun);
                 listViewAdapter.remove(listViewAdapter.getItem(i));
+                if(listViewAdapter.getCount() == 0) {
+                    buttonUsun.setVisibility(View.INVISIBLE);
+                }
             }
         }
-
-    }
-    public void addList(View view) {
-        this.view = view;
-        Intent intent = getIntent();
-        list.add(list.size(), "ok");
-        intent.putExtra("towary", list);
-        buildDialog(intent, this);
-
     }
 
-    private void buildDialog(final Intent intent, Context context) {
+    private void buildDialog(Context context) {
         Log.d("TAG", "buildDialog() called with: " + "");
         AlertDialog.Builder dialog  = new AlertDialog.Builder(context)
-                .setTitle("Priorytet")
+                .setTitle("Filtruj wyniki:")
                 .setPositiveButton("Wg najlepszej ceny", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        setResult(222, intent);
-                        finish();
-
+                        result = 1;
+                        return;
                     }
                 }).setNegativeButton("Wg odleglosci", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        setResult(300, intent);
-                        finish();
-
+                        result = 2;
+                        return;
                     }
                 });
         dialog.show();
+    }
+
+    public void showDialog(View view) {
+        buildDialog(this);
     }
 }

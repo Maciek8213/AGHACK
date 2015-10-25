@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 /**
  * Created by Slasher on 2015-10-24.
  */
@@ -23,7 +22,7 @@ public class ProduktFactory extends SQLiteOpenHelper
                         "id integer primary key autoincrement," +
                         "id_sklepu integer," +
                         "nazwa text," +
-                        "cena integer," +
+                        "cena double," +
                         "ilosc integer)"
         );
     }
@@ -53,7 +52,7 @@ public class ProduktFactory extends SQLiteOpenHelper
         String[] kolumny ={"id", "id_sklepu","nazwa","cena","ilosc"};
         SQLiteDatabase db = getReadableDatabase();
         String args[] ={id_sklepu+""};
-        Cursor kursor = db.query("produkty", kolumny, " id=?", args, null, null,null);
+        Cursor kursor = db.query("produkty", kolumny, " id_sklepu=?", args, null, null,null);
         final int ile_produktow = kursor.getCount();
         Produkt produkty[] = new Produkt[ile_produktow];
         int  i=0;
@@ -67,6 +66,8 @@ public class ProduktFactory extends SQLiteOpenHelper
             produkt.setIlosc(kursor.getInt(4));
             produkty[i] = produkt;
             i++;
+
+
 
         }
         return produkty;
@@ -86,6 +87,13 @@ public class ProduktFactory extends SQLiteOpenHelper
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+    public void kasujProdukty(int id_sklepu)
+    {
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("produkty","id_sklepu=?", new String[]{id_sklepu+""});
 
     }
 }

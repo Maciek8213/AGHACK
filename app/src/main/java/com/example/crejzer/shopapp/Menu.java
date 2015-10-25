@@ -1,5 +1,8 @@
 package com.example.crejzer.shopapp;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 //import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
@@ -89,10 +92,11 @@ public class Menu extends FragmentActivity{
         this.view = view;
         Intent intent = getIntent();
         intent.putExtra("towary", list);
-        if(listView.getAdapter().getCount() > 0) {
-            setResult(222, intent);
-            finish();
-        }
+//        if(listView.getAdapter().getCount() > 0) {
+//            setResult(222, intent);
+//            finish();
+//        }
+        buildDialog(intent, this);
     }
 
     public void usunElement(View view) {
@@ -103,5 +107,35 @@ public class Menu extends FragmentActivity{
             }
         }
 
+    }
+    public void addList(View view) {
+        this.view = view;
+        Intent intent = getIntent();
+        list.add(list.size(), "ok");
+        intent.putExtra("towary", list);
+        buildDialog(intent, this);
+
+    }
+
+    private void buildDialog(final Intent intent, Context context) {
+        Log.d("TAG", "buildDialog() called with: " + "");
+        AlertDialog.Builder dialog  = new AlertDialog.Builder(context)
+                .setTitle("Priorytet")
+                .setPositiveButton("Wg najlepszej ceny", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setResult(222, intent);
+                        finish();
+
+                    }
+                }).setNegativeButton("Wg odleglosci", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        setResult(300, intent);
+                        finish();
+
+                    }
+                });
+        dialog.show();
     }
 }

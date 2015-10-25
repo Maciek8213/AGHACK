@@ -89,4 +89,11 @@ public class SklepFactory  extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+    public void kasujSklepy(int id)
+    {
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("sklepy","id=?", new String[]{id+""});
+
+    }
 }

@@ -1,5 +1,8 @@
 package com.example.crejzer.shopapp;
 
+
+import android.util.Log;
+
 /**
  * Created by Slasher on 2015-10-24.
  */
@@ -9,7 +12,7 @@ public class Sklep
     private String nazwa;
     private double poz_x;
     private double poz_y;
-    private Produkt[] produkty;
+    public Produkt[] produkty;
 
     public int getId() {
         return id;
@@ -50,13 +53,13 @@ public class Sklep
     public void setProdukty(Produkt[] produkty) {
         this.produkty = produkty;
     }
-    private int getCenaProduktu(String nazwa)
+    private double getCenaProduktu(String nazwa)
     {
-        final int ile_produktow = this.produkty.length;
+        int ile_produktow = this.produkty.length;
 
         for(int i=0; i<ile_produktow; i++)
         {
-            if(this.produkty[i].getNazwa() == nazwa)
+            if(this.produkty[i].getNazwa().equals( nazwa) )
             {
                 return this.produkty[i].getCena();
             }
@@ -64,16 +67,20 @@ public class Sklep
 
         return 0;
     }
-    public int getCenyProduktow(String[] nazwy)
+    public double getCenyProduktow(String[] nazwy)
     {
-        int suma =0;
+        double suma =0;
         int ile_produktow = nazwy.length;
 
         for(int i=0; i< ile_produktow; i++)
         {
+
             suma+=this.getCenaProduktu(nazwy[i]);
             if(this.getCenaProduktu(nazwy[i])==0)
+            {
                 return 0;
+            }
+
         }
 
         return suma;

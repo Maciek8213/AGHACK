@@ -8,7 +8,7 @@ public class Produkt
     private int id;
     private int id_sklepu;
     private String nazwa;
-    private int cena;
+    private double cena;
     private int ilosc;
 
     public int getId() {
@@ -35,7 +35,7 @@ public class Produkt
         this.nazwa = nazwa;
     }
 
-    public int getCena() {
+    public double getCena() {
         return cena;
     }
 

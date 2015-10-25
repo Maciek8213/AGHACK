@@ -1,5 +1,6 @@
 package com.example.crejzer.shopapp;
 
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -40,7 +41,7 @@ public class ProduktFactory extends SQLiteOpenHelper
             produkt.setId(kursor.getInt(0));
             produkt.setIdSklepu(kursor.getInt(1));
             produkt.setNazwa(kursor.getString(2));
-            produkt.setCena(kursor.getInt(3));
+            produkt.setCena(kursor.getDouble(3));
             produkt.setIlosc(kursor.getInt(4));
 
         }
@@ -62,7 +63,7 @@ public class ProduktFactory extends SQLiteOpenHelper
             produkt.setId(kursor.getInt(0));
             produkt.setIdSklepu(kursor.getInt(1));
             produkt.setNazwa(kursor.getString(2));
-            produkt.setCena(kursor.getInt(3));
+            produkt.setCena(kursor.getDouble(3));
             produkt.setIlosc(kursor.getInt(4));
             produkty[i] = produkt;
             i++;
@@ -73,7 +74,7 @@ public class ProduktFactory extends SQLiteOpenHelper
         return produkty;
 
     }
-    public void dodajProdukt(int id_sklepu, String nazwa, int cena, int ilosc)
+    public void dodajProdukt(int id_sklepu, String nazwa, double cena, int ilosc)
     {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues wartosci = new ContentValues();

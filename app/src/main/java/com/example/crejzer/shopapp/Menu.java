@@ -80,7 +80,7 @@ public class Menu extends FragmentActivity{
         });
         textView.setAdapter(adapter);
     }
-    private static final String[] ITEAM = new String[] {"Ania","Jest","Nie Jest","Fajna"};
+    private static final String[] ITEAM = new String[] {"Chleb","Maslo","Piwo","Wódka","Szynka/100gg","Ser żółty/150","Jajka/10szt","Sok/1l","Cola/2l","Banany/1kg","Jabłka","Ziemniaki/2.5kg","Cebula/1kg","Pasztet","Makaron"};
 
     public void setIteam(){
 

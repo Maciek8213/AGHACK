@@ -39,7 +39,7 @@ public class Produkt
         return cena;
     }
 
-    public void setCena(int cena) {
+    public void setCena(double cena) {
         this.cena = cena;
     }
 

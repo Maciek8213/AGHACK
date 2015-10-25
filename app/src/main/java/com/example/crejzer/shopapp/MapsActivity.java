@@ -80,6 +80,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+//    public void inthread(){
+//        this.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        });
+//    }
+
+    @Override
+    public void onBackPressed() {
+
+   -     super.onBackPressed();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -123,8 +137,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             wspol.add(lat);
                             wspol.add(lng);
                             Log.d("test", String.valueOf(wspol.size()));
-//                            LatLng sydney = new LatLng(lat, lng);
-//                            mMap.addMarker(new MarkerOptions().position(sydney).title("TU KURWA MASZ ISC DO LEWKA"));
+
                         }
 
                         @Override
@@ -152,8 +165,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             wspol.add(lat);
                             wspol.add(lng);
                             Log.d("test", String.valueOf(wspol.size()));
-//                            LatLng sydney = new LatLng(lat, lng);
-//                            mMap.addMarker(new MarkerOptions().position(sydney).title("TU KURWA MASZ ISC DO BIEDRY"));
+
                         }
 
                         @Override
